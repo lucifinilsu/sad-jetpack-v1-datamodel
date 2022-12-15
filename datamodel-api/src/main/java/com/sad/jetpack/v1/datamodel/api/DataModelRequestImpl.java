@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DataModelRequestImpl<B> implements IDataModelRequest<B>, IDataModelRequest.Creator<B> {
-    private static final int DEFAULT_TIMEOUT=1000;
+    private static final int DEFAULT_TIMEOUT=5000;
     private B body =null;
     private Map<String,String> headers=new HashMap<>();
     private long timeout=DEFAULT_TIMEOUT;

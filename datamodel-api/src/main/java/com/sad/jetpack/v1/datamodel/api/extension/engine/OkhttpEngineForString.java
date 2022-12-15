@@ -16,13 +16,7 @@ import okhttp3.Headers;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public abstract class OkhttpEngineForStringModel<RQ> extends OkHttpEngineModel<RQ,String> {
-    /*@Override
-    public void onRestOkhttpRequest(INetDataRequest<String> request, Request.Builder okhttpRequestBuilder) {
-        if (request.method()== INetDataRequest.Method.POST){
-            okhttpRequestBuilder=okhttpRequestBuilder.post(RequestBody.create(request.body(), MediaType.parse("application/json;charset=utf-8")));
-        }
-    }*/
+public abstract class OkhttpEngineForString<RQ> extends OkHttpEngine<RQ,String> {
 
     @Override
     public void onHandleOkhttpResponse(IDataModelRequest<RQ> request, Response response, IDataModelChainOutput<RQ, String> chainOutput) throws IOException {

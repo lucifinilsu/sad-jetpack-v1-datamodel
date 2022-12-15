@@ -2,6 +2,8 @@ package com.sad.jetpack.v1.datamodel.api;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<
     private int currIndex=-1;
     private IDataModelObtainedCallback<RQ,RP> callback;
     private IDataModelObtainedExceptionListener<RQ> exceptionListener;
+    private IDataModelResponse<RQ,RP> cacheResponse;
 
     public InternalDataModelChainInput(
             List<IDataModelInterceptorInput<RQ,RP>> interceptorInputs,
@@ -29,8 +32,18 @@ public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<
     }
 
     @Override
-    public void proceed(IDataModelRequest<RQ> request) {
+    public IDataModelResponse<RQ, RP> cacheResponse() {
+        return this.cacheResponse;
+    }
+
+    @Override
+    public void proceed(@NonNull IDataModelRequest<RQ> request, IDataModelResponse<RQ,RP> cacheResponse) {
         this.request=request;
+        this.cacheResponse=cacheResponse;
+        doProceed();
+    }
+
+    private void doProceed(){
         this.currIndex++;
         if (currIndex>interceptorInputs.size()-1){
             //几乎不会到达这里，因为最后一个是默认内部拦截器（引擎）

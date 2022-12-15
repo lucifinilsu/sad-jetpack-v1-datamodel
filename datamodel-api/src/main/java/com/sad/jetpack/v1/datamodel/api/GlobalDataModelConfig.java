@@ -35,4 +35,14 @@ public class GlobalDataModelConfig {
         this.enableWholeLog=enableWholeLog;
         return this;
     }
+
+    public GlobalDataModelConfig engine(IDataModelProductEngine engine){
+        this.engine=engine;
+        return this;
+    }
+
+    public GlobalDataModelConfig timeout(long timeout){
+        this.timeout=timeout;
+        return this;
+    }
 }

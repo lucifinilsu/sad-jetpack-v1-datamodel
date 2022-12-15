@@ -1,4 +1,4 @@
-package com.sad.jetpack.v1.datamodel.api.extension;
+package com.sad.jetpack.v1.datamodel.api.utils;
 
 
 import android.util.Log;

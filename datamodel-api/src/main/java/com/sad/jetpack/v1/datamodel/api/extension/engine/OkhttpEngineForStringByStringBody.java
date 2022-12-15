@@ -6,7 +6,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class OkhttpEngineForStringByStringBodyModel extends OkhttpEngineForStringModel<String> {
+public class OkhttpEngineForStringByStringBody extends OkhttpEngineForString<String> {
     @Override
     public void onRestOkhttpRequest(IDataModelRequest<String> request, Request.Builder okhttpRequestBuilder) {
         if (request.method()== IDataModelRequest.Method.POST){

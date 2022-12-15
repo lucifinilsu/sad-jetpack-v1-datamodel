@@ -6,7 +6,7 @@ import org.jsoup.Connection;
 
 import java.util.Map;
 
-public class JsoupEngineForStringByFormBodyModel extends JsoupEngineForStringModel<Map<String,String>> {
+public class JsoupEngineForStringByFormBody extends JsoupEngineForString<Map<String,String>> {
 
     @Override
     public void onResetJsoupConnection(IDataModelRequest<Map<String, String>> request, Connection connection) {

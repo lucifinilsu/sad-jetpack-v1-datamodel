@@ -10,7 +10,7 @@ import com.sad.jetpack.v1.datamodel.api.IDataModelRequest;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
-public abstract class JsoupEngineModel<RQ,RP> implements IDataModelProductEngine<RQ,RP> {
+public abstract class JsoupEngine<RQ,RP> implements IDataModelProductEngine<RQ,RP> {
     @Override
     public void onEngineExecute(IDataModelRequest<RQ> request, IDataModelChainOutput<RQ,RP> chainOutput) throws Exception {
         SADTaskSchedulerClient.newInstance()

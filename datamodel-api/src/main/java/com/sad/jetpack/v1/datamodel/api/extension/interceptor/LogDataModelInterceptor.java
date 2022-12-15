@@ -4,10 +4,15 @@ import com.sad.jetpack.v1.datamodel.api.IDataModelChainInput;
 import com.sad.jetpack.v1.datamodel.api.IDataModelChainOutput;
 import com.sad.jetpack.v1.datamodel.api.IDataModelInterceptorInput;
 import com.sad.jetpack.v1.datamodel.api.IDataModelInterceptorOutput;
-import com.sad.jetpack.v1.datamodel.api.extension.LogcatUtils;
+import com.sad.jetpack.v1.datamodel.api.utils.LogcatUtils;
 
-public class LogModelModelInterceptor implements IDataModelInterceptorInput<String,String>, IDataModelInterceptorOutput<String,String> {
+public class LogDataModelInterceptor implements IDataModelInterceptorInput<String,String>, IDataModelInterceptorOutput<String,String> {
 
+    private LogDataModelInterceptor(){}
+
+    public static LogDataModelInterceptor newInstance(){
+        return new LogDataModelInterceptor();
+    }
     @Override
     public void onInterceptedInput(IDataModelChainInput<String, String> chainInput) throws Exception {
         LogcatUtils.e("DataCenter","[request-url]"+chainInput.request().url());

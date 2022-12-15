@@ -6,7 +6,7 @@ import com.sad.jetpack.v1.datamodel.api.IDataModelRequest;
 
 import org.jsoup.Connection;
 
-public class JsoupEngineForStringByStringBodyModel extends JsoupEngineForStringModel<String> {
+public class JsoupEngineForStringByStringBody extends JsoupEngineForString<String> {
 
     @Override
     public void onResetJsoupConnection(IDataModelRequest<String> request, Connection connection) {

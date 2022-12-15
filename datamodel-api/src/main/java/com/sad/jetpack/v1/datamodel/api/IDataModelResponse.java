@@ -14,6 +14,8 @@ public interface IDataModelResponse<RQ,RP> {
 
     Map<String,String> headers();
 
+    IDataModelResponse<RQ,RP> cacheResponse();
+
     Creator<RQ,RP> toCreator();
 
     interface Creator<RQ,RP>{
@@ -29,6 +31,8 @@ public interface IDataModelResponse<RQ,RP> {
         Creator<RQ,RP> request(IDataModelRequest request);
 
         Creator<RQ,RP> dataSource(DataSource dataSource);
+
+        Creator<RQ,RP> cacheResponse(IDataModelResponse<RQ,RP> cacheResponse);
 
         IDataModelResponse<RQ,RP> create();
     }

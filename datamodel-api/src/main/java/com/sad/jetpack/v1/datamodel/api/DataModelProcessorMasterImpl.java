@@ -59,9 +59,9 @@ public class DataModelProcessorMasterImpl<RQ,RP> implements IDataModelProcessorM
 
     @Override
     public void execute() {
-        addInputInterceptor(new InternalTerminalDataModelInterceptorInput(interceptorOutputs,callback,engine));
+        addInputInterceptor(new InternalTerminalDataModelInterceptorInput(interceptorOutputs,engine));
         InternalDataModelChainInput<RQ,RP> chainInput=new InternalDataModelChainInput<>(interceptorInputs,callback,exceptionListener);
-        chainInput.proceed(request);
+        chainInput.proceed(request,null);
     }
 
     @Override

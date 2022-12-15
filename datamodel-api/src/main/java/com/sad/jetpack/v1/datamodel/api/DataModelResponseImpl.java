@@ -6,6 +6,7 @@ import java.util.Map;
 public class DataModelResponseImpl<RQ,RP> implements IDataModelResponse<RQ,RP>, IDataModelResponse.Creator<RQ,RP> {
 
     private IDataModelRequest request;
+    private IDataModelResponse<RQ,RP> cacheResponse;
     private int code=200;
     private RP body=null;
     private DataSource dataSource=DataSource.NET;
@@ -37,6 +38,11 @@ public class DataModelResponseImpl<RQ,RP> implements IDataModelResponse<RQ,RP>, 
     @Override
     public Map<String, String> headers() {
         return this.headers;
+    }
+
+    @Override
+    public IDataModelResponse<RQ, RP> cacheResponse() {
+        return cacheResponse;
     }
 
     @Override
@@ -77,6 +83,12 @@ public class DataModelResponseImpl<RQ,RP> implements IDataModelResponse<RQ,RP>, 
     @Override
     public Creator<RQ,RP> dataSource(DataSource dataSource) {
         this.dataSource=dataSource;
+        return this;
+    }
+
+    @Override
+    public Creator<RQ, RP> cacheResponse(IDataModelResponse<RQ, RP> cacheResponse) {
+        this.cacheResponse=cacheResponse;
         return this;
     }
 

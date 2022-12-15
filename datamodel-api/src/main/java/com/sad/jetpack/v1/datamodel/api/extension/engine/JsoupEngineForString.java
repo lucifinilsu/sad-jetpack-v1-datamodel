@@ -8,7 +8,7 @@ import com.sad.jetpack.v1.datamodel.api.DataModelResponseImpl;
 
 import org.jsoup.Connection;
 
-public class JsoupEngineForStringModel<RQ> extends JsoupEngineModel<RQ,String> {
+public class JsoupEngineForString<RQ> extends JsoupEngine<RQ,String> {
     @Override
     public void onHandleJsoupResponse(IDataModelRequest<RQ> request, Connection.Response jsoupResponse, IDataModelChainOutput<RQ, String> chainOutput) {
         int code=jsoupResponse.statusCode();

@@ -15,7 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public abstract class OkHttpEngineModel<RQ,RP> implements IDataModelProductEngine<RQ,RP> {
+public abstract class OkHttpEngine<RQ,RP> implements IDataModelProductEngine<RQ,RP> {
     @Override
     public void onEngineExecute(IDataModelRequest<RQ> request, IDataModelChainOutput<RQ, RP> chainOutput) throws Exception {
         Request.Builder okhttpRequestBuilder=new Request.Builder();
