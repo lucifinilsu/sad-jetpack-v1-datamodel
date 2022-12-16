@@ -27,6 +27,11 @@ public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<
 
 
     @Override
+    public int currIndex() {
+        return currIndex;
+    }
+
+    @Override
     public IDataModelRequest<RQ> request() {
         return this.request;
     }
@@ -36,10 +41,12 @@ public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<
         return this.cacheResponse;
     }
 
+
     @Override
-    public void proceed(@NonNull IDataModelRequest<RQ> request, IDataModelResponse<RQ,RP> cacheResponse) {
+    public void proceed(@NonNull IDataModelRequest<RQ> request, IDataModelResponse<RQ, RP> cacheResponse, int index) {
         this.request=request;
         this.cacheResponse=cacheResponse;
+        this.currIndex=index;
         doProceed();
     }
 
@@ -51,7 +58,6 @@ public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<
             return;
         }
         else {
-
             IDataModelInterceptorInput<RQ,RP> interceptorInput=interceptorInputs.get(currIndex);
             Log.e("sad-jetpack-v1","---------------->内部输入链执行："+interceptorInput);
             try {

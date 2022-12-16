@@ -38,4 +38,5 @@ dependencies {
     api rootProject.ext.dependencies["commons-lang3"]
     api "com.github.lucifinilsu:sad-async:0.2.6"
     api "com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:latest.release"
+    api rootProject.ext.dependencies["gson"]
 }

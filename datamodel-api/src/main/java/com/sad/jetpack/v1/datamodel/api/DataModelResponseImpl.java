@@ -6,7 +6,7 @@ import java.util.Map;
 public class DataModelResponseImpl<RQ,RP> implements IDataModelResponse<RQ,RP>, IDataModelResponse.Creator<RQ,RP> {
 
     private IDataModelRequest request;
-    private IDataModelResponse<RQ,RP> cacheResponse;
+    //private IDataModelResponse<RQ,RP> cacheResponse;
     private int code=200;
     private RP body=null;
     private DataSource dataSource=DataSource.NET;
@@ -40,10 +40,10 @@ public class DataModelResponseImpl<RQ,RP> implements IDataModelResponse<RQ,RP>, 
         return this.headers;
     }
 
-    @Override
+    /*@Override
     public IDataModelResponse<RQ, RP> cacheResponse() {
         return cacheResponse;
-    }
+    }*/
 
     @Override
     public Creator<RQ,RP> toCreator() {
@@ -86,11 +86,11 @@ public class DataModelResponseImpl<RQ,RP> implements IDataModelResponse<RQ,RP>, 
         return this;
     }
 
-    @Override
+    /*@Override
     public Creator<RQ, RP> cacheResponse(IDataModelResponse<RQ, RP> cacheResponse) {
         this.cacheResponse=cacheResponse;
         return this;
-    }
+    }*/
 
     @Override
     public DataModelResponseImpl create() {

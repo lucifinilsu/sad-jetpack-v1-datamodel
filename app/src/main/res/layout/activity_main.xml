@@ -7,15 +7,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/startTest"
-        android:text="开始测试"
+    <LinearLayout
+        android:id="@+id/control"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/startTest"
+            android:layout_weight="1"
+            android:text="开始测试"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_weight="1"
+            android:id="@+id/cleanCache"
+            android:text="清除缓存"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
     <androidx.core.widget.NestedScrollView
         android:background="@color/cardview_shadow_end_color"
         android:layout_marginTop="8dip"
-        android:layout_below="@+id/startTest"
+        android:layout_below="@+id/control"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView

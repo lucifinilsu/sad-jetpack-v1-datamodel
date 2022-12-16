@@ -14,7 +14,7 @@ public interface IDataModelResponse<RQ,RP> {
 
     Map<String,String> headers();
 
-    IDataModelResponse<RQ,RP> cacheResponse();
+    //IDataModelResponse<RQ,RP> cacheResponse();
 
     Creator<RQ,RP> toCreator();
 
@@ -32,7 +32,7 @@ public interface IDataModelResponse<RQ,RP> {
 
         Creator<RQ,RP> dataSource(DataSource dataSource);
 
-        Creator<RQ,RP> cacheResponse(IDataModelResponse<RQ,RP> cacheResponse);
+        //Creator<RQ,RP> cacheResponse(IDataModelResponse<RQ,RP> cacheResponse);
 
         IDataModelResponse<RQ,RP> create();
     }
