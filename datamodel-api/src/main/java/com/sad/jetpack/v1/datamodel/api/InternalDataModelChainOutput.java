@@ -44,6 +44,7 @@ public class InternalDataModelChainOutput<RQ,RP> implements IDataModelChainOutpu
             if (callback!=null){
                 callback.onDataObtainedCompleted(response);
             }
+            currIndex=-1;
         }
         else {
             IDataModelInterceptorOutput<RQ,RP> interceptorOutput=interceptorOutputs.get(currIndex);
