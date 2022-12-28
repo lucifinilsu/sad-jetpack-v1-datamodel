@@ -9,15 +9,18 @@ public class InternalDataModelChainOutput<RQ,RP> implements IDataModelChainOutpu
     private int currIndex=-1;
     private IDataModelObtainedCallback<RQ,RP> callback;
     private IDataModelObtainedExceptionListener<RQ> exceptionListener;
+    private IDataModel dataModel;
 
     public InternalDataModelChainOutput(
             List<IDataModelInterceptorOutput<RQ, RP>> interceptorOutputs,
             IDataModelObtainedCallback<RQ, RP> callback,
-            IDataModelObtainedExceptionListener<RQ> exceptionListener
+            IDataModelObtainedExceptionListener<RQ> exceptionListener,
+            IDataModel dataModel
     ) {
         this.interceptorOutputs = interceptorOutputs;
         this.callback = callback;
         this.exceptionListener=exceptionListener;
+        this.dataModel=dataModel;
     }
 
     @Override
@@ -41,6 +44,9 @@ public class InternalDataModelChainOutput<RQ,RP> implements IDataModelChainOutpu
         this.response=response;
         this.currIndex++;
         if (currIndex>interceptorOutputs.size()-1){
+            if (dataModel!=null){
+                dataModel.setValue(response.request().tag(),response);
+            }
             if (callback!=null){
                 callback.onDataObtainedCompleted(response);
             }

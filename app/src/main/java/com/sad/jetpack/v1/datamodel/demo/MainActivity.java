@@ -2,13 +2,14 @@ package com.sad.jetpack.v1.datamodel.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sad.jetpack.v1.datamodel.api.DataModelProcessorMasterImpl;
+import com.sad.jetpack.v1.datamodel.api.DataModelProducerImpl;
 import com.sad.jetpack.v1.datamodel.api.DataModelRequestImpl;
 import com.sad.jetpack.v1.datamodel.api.DataSource;
 import com.sad.jetpack.v1.datamodel.api.IDataModelObtainedCallback;
@@ -16,7 +17,6 @@ import com.sad.jetpack.v1.datamodel.api.IDataModelObtainedExceptionListener;
 import com.sad.jetpack.v1.datamodel.api.IDataModelRequest;
 import com.sad.jetpack.v1.datamodel.api.IDataModelResponse;
 import com.sad.jetpack.v1.datamodel.api.extension.cache.CacheUtil;
-import com.sad.jetpack.v1.datamodel.api.extension.engine.JsoupEngineForStringByStringBody;
 import com.sad.jetpack.v1.datamodel.api.extension.engine.OkhttpEngineForStringByStringBody;
 import com.sad.jetpack.v1.datamodel.api.extension.interceptor.DefaultCacheLoader;
 import com.sad.jetpack.v1.datamodel.api.extension.interceptor.LogDataModelInterceptor;
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
     }
     private void initView(){
+
         button_start=findViewById(R.id.startTest);
         tv_console=findViewById(R.id.console);
         button_cleanCache=findViewById(R.id.cleanCache);
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                         .create();
         LogDataModelInterceptor logInterceptor=LogDataModelInterceptor.newInstance();
         DefaultStringCacheDataModelInterceptor<String> cacheInterceptor=new DefaultStringCacheDataModelInterceptor<>(this);
-        DataModelProcessorMasterImpl.<String,String>newInstance()
+        DataModelProducerImpl.<String,String>newInstance()
                 .addInputInterceptor(logInterceptor)
                 .addInputInterceptor(cacheInterceptor)
                 .addOutputInterceptor(logInterceptor)
