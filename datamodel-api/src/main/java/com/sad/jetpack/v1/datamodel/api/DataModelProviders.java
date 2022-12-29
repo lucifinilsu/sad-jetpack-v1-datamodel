@@ -7,9 +7,15 @@ public class DataModelProviders {
     public static IDataModel get(String dataModelId){
         return modelRepository.get(dataModelId);
     }
-    public void register(String dataModelId,IDataModel model){
+    public static void register(String dataModelId,IDataModel model){
         if (model!=null){
             modelRepository.put(dataModelId,model);
         }
+    }
+    public static void unregister(String dataModelId){
+        modelRepository.remove(dataModelId);
+    }
+    public static void clear(){
+        modelRepository.clear();
     }
 }
