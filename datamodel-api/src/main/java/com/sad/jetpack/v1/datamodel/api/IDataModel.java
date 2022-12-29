@@ -6,11 +6,11 @@ public interface IDataModel {
 
     <RQ,RP> IDataModelResponse<RQ,RP> get(String tag);
 
-    <RQ, RP> IDataModelResponse<RQ, RP> getAndRequest(String tag);
+    void request(String tag);
 
-    void setValue(String tag,IDataModelResponse newResponse);
+    IDataModel setValue(String tag,IDataModelResponse newResponse);
 
-    void producerFactory(String tag,IDataModelProducerFactory producerFactory);
+    IDataModel producerFactory(IDataModelProducerFactory producerFactory);
 
     void addObserver(Observer o);
     void deleteObserver(Observer o) ;

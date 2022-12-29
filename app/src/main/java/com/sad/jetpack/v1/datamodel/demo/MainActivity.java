@@ -2,18 +2,23 @@ package com.sad.jetpack.v1.datamodel.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sad.jetpack.v1.datamodel.api.DataModelProducerImpl;
+import com.sad.jetpack.v1.datamodel.api.DataModelProviders;
 import com.sad.jetpack.v1.datamodel.api.DataModelRequestImpl;
 import com.sad.jetpack.v1.datamodel.api.DataSource;
+import com.sad.jetpack.v1.datamodel.api.DefaultDataModel;
+import com.sad.jetpack.v1.datamodel.api.IDataModel;
 import com.sad.jetpack.v1.datamodel.api.IDataModelObtainedCallback;
 import com.sad.jetpack.v1.datamodel.api.IDataModelObtainedExceptionListener;
+import com.sad.jetpack.v1.datamodel.api.IDataModelProducer;
+import com.sad.jetpack.v1.datamodel.api.IDataModelProducerFactory;
 import com.sad.jetpack.v1.datamodel.api.IDataModelRequest;
 import com.sad.jetpack.v1.datamodel.api.IDataModelResponse;
 import com.sad.jetpack.v1.datamodel.api.extension.cache.CacheUtil;
@@ -27,11 +32,13 @@ public class MainActivity extends AppCompatActivity {
     private AppCompatButton button_start;
     private TextView tv_console;
     private AppCompatButton button_cleanCache;
+    private AppCompatButton button_ac2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DefaultCacheLoader.initCacheLoader(getApplicationContext());
+        DataModelProviders.register("xxxx",new DefaultDataModel());
         initView();
     }
     private void initView(){
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         button_start=findViewById(R.id.startTest);
         tv_console=findViewById(R.id.console);
         button_cleanCache=findViewById(R.id.cleanCache);
+        button_ac2=findViewById(R.id.ac2);
         button_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,8 +59,15 @@ public class MainActivity extends AppCompatActivity {
                 CacheUtil.clearAll();
             }
         });
+        button_ac2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,SecondActivity.class));
+            }
+        });
     }
     private void test(){
+
         IDataModelRequest<String> request= DataModelRequestImpl.<String>newCreator()
                         .url("https://www.baidu.com")
                         .method(IDataModelRequest.Method.GET)
@@ -60,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         .create();
         LogDataModelInterceptor logInterceptor=LogDataModelInterceptor.newInstance();
         DefaultStringCacheDataModelInterceptor<String> cacheInterceptor=new DefaultStringCacheDataModelInterceptor<>(this);
-        DataModelProducerImpl.<String,String>newInstance()
+        IDataModelProducer<String,String> dataModelProducer=DataModelProducerImpl.<String,String>newInstance()
                 .addInputInterceptor(logInterceptor)
                 .addInputInterceptor(cacheInterceptor)
                 .addOutputInterceptor(logInterceptor)
@@ -88,7 +103,16 @@ public class MainActivity extends AppCompatActivity {
                         throwable.printStackTrace();
                     }
                 })
-                .engine(new OkhttpEngineForStringByStringBody())
-                .execute();
+                .engine(new OkhttpEngineForStringByStringBody());
+                //.execute();
+                IDataModel dataModel=DataModelProviders.get("xxxx");
+                dataModel.producerFactory(new IDataModelProducerFactory() {
+                    @Override
+                    public  IDataModelProducer onCreateProducer(String tag) {
+                        return dataModelProducer;
+                    }
+                });
+
+                dataModel.request("xxx");
     }
 }

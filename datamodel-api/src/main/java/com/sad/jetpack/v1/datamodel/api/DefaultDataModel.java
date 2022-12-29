@@ -13,28 +13,26 @@ public class DefaultDataModel extends Observable implements IDataModel {
         return responseRepository.get(tag);
     }
 
-    public <RQ, RP> IDataModelResponse<RQ, RP> getAndRequest(String tag){
-        IDataModelResponse<RQ, RP> response=get(tag);
-        if (response==null){
-            if (producerFactory!=null){
-                IDataModelProducer<RQ,RP> producer=producerFactory.onCreateProducer(tag);
-                producer.dataModel(this);
-                producer.execute();
-            }
+    public void request(String tag){
+        if (producerFactory!=null){
+            IDataModelProducer  producer=producerFactory.onCreateProducer(tag);
+            producer.dataModel(this);
+            producer.execute();
         }
-        return response;
     }
 
     @Override
-    public void setValue(String tag, IDataModelResponse newResponse) {
+    public IDataModel setValue(String tag, IDataModelResponse newResponse) {
         responseRepository.put(tag,newResponse);
         setChanged();
         notifyObservers(newResponse);
+        return this;
     }
 
     @Override
-    public void producerFactory(String tag, IDataModelProducerFactory producerFactory) {
+    public IDataModel producerFactory(IDataModelProducerFactory producerFactory) {
         this.producerFactory=producerFactory;
+        return this;
     }
 
 
