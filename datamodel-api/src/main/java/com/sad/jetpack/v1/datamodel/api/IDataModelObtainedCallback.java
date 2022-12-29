@@ -1,7 +1,7 @@
 package com.sad.jetpack.v1.datamodel.api;
 
-public interface IDataModelObtainedCallback<RQ,RP> {
+public interface IDataModelObtainedCallback<RP> {
 
-    void onDataObtainedCompleted(IDataModelResponse<RQ,RP> response);
+    void onDataObtainedCompleted(IDataModelResponse<RP> response);
 
 }

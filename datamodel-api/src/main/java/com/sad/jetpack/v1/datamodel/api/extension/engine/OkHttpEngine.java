@@ -15,9 +15,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public abstract class OkHttpEngine<RQ,RP> implements IDataModelProductEngine<RQ,RP> {
+public abstract class OkHttpEngine<RP> implements IDataModelProductEngine<RP> {
     @Override
-    public void onEngineExecute(IDataModelRequest<RQ> request, IDataModelChainOutput<RQ, RP> chainOutput) throws Exception {
+    public void onEngineExecute(IDataModelRequest request, IDataModelChainOutput< RP> chainOutput) throws Exception {
         Request.Builder okhttpRequestBuilder=new Request.Builder();
         okhttpRequestBuilder.url(request.url());
         if (request.method()== IDataModelRequest.Method.GET){
@@ -46,9 +46,9 @@ public abstract class OkHttpEngine<RQ,RP> implements IDataModelProductEngine<RQ,
                     }
                 });
     }
-    public void onResetOkhttpClient(IDataModelRequest<RQ> request, OkHttpClient.Builder builder){
+    public void onResetOkhttpClient(IDataModelRequest request, OkHttpClient.Builder builder){
 
     }
-    public abstract void onRestOkhttpRequest(IDataModelRequest<RQ> request, Request.Builder okhttpRequestBuilder);
-    public abstract void onHandleOkhttpResponse(IDataModelRequest<RQ> request, Response response, IDataModelChainOutput<RQ, RP> chainOutput) throws IOException;
+    public abstract void onRestOkhttpRequest(IDataModelRequest request, Request.Builder okhttpRequestBuilder);
+    public abstract void onHandleOkhttpResponse(IDataModelRequest request, Response response, IDataModelChainOutput<RP> chainOutput) throws IOException;
 }

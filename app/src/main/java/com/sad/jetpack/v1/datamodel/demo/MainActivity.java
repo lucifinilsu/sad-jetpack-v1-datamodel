@@ -33,20 +33,24 @@ public class MainActivity extends AppCompatActivity {
     private TextView tv_console;
     private AppCompatButton button_cleanCache;
     private AppCompatButton button_ac2;
+    private IDataModel dataModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DefaultCacheLoader.initCacheLoader(getApplicationContext());
-        DataModelProviders.register("xxxx",new DefaultDataModel());
+        dataModel = new DefaultDataModel();
         initView();
+        configDataModel(dataModel);
     }
-    private void initView(){
 
-        button_start=findViewById(R.id.startTest);
-        tv_console=findViewById(R.id.console);
-        button_cleanCache=findViewById(R.id.cleanCache);
-        button_ac2=findViewById(R.id.ac2);
+    private void initView() {
+
+        button_start = findViewById(R.id.startTest);
+        tv_console = findViewById(R.id.console);
+        button_cleanCache = findViewById(R.id.cleanCache);
+        button_ac2 = findViewById(R.id.ac2);
         button_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,33 +66,33 @@ public class MainActivity extends AppCompatActivity {
         button_ac2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,SecondActivity.class));
+                startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });
     }
-    private void test(){
 
-        IDataModelRequest<String> request= DataModelRequestImpl.<String>newCreator()
-                        .url("https://www.baidu.com")
-                        .method(IDataModelRequest.Method.GET)
-                        .tag("xxx")
-                        .create();
-        LogDataModelInterceptor logInterceptor=LogDataModelInterceptor.newInstance();
-        DefaultStringCacheDataModelInterceptor<String> cacheInterceptor=new DefaultStringCacheDataModelInterceptor<>(this);
-        IDataModelProducer<String,String> dataModelProducer=DataModelProducerImpl.<String,String>newInstance()
+    private void configDataModel(IDataModel dataModel) {
+        IDataModelRequest request = DataModelRequestImpl.newCreator()
+                .url("https://www.baidu.com")
+                .method(IDataModelRequest.Method.GET)
+                .tag("xxx")
+                .create();
+        LogDataModelInterceptor logInterceptor = LogDataModelInterceptor.newInstance();
+        DefaultStringCacheDataModelInterceptor cacheInterceptor = new DefaultStringCacheDataModelInterceptor(this);
+        IDataModelProducer<String> dataModelProducer = DataModelProducerImpl.<String>newInstance()
                 .addInputInterceptor(logInterceptor)
                 .addInputInterceptor(cacheInterceptor)
                 .addOutputInterceptor(logInterceptor)
                 .addOutputInterceptor(cacheInterceptor)
                 .request(request)
-                .callback(new IDataModelObtainedCallback<String, String>() {
+                .callback(new IDataModelObtainedCallback<String>() {
                     @Override
-                    public void onDataObtainedCompleted(IDataModelResponse<String, String> response) {
+                    public void onDataObtainedCompleted(IDataModelResponse<String> response) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(response.dataSource()== DataSource.NET){
-                                    Toast.makeText(getApplicationContext(),"重新请求数据",Toast.LENGTH_SHORT).show();
+                                if (response.dataSource() == DataSource.NET) {
+                                    Toast.makeText(getApplicationContext(), "重新请求数据", Toast.LENGTH_SHORT).show();
                                 }
                                 tv_console.setText(response.body());
 
@@ -96,23 +100,24 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
                 })
-                .exceptionListener(new IDataModelObtainedExceptionListener<String>() {
+                .exceptionListener(new IDataModelObtainedExceptionListener() {
                     @Override
-                    public void onDataObtainedException(IDataModelRequest<String> request, Throwable throwable) {
+                    public void onDataObtainedException(IDataModelRequest request, Throwable throwable) {
                         LogcatUtils.e("哎呦。报错了。");
                         throwable.printStackTrace();
                     }
                 })
                 .engine(new OkhttpEngineForStringByStringBody());
-                //.execute();
-                IDataModel dataModel=DataModelProviders.get("xxxx");
-                dataModel.producerFactory(new IDataModelProducerFactory() {
-                    @Override
-                    public  IDataModelProducer onCreateProducer(String tag) {
-                        return dataModelProducer;
-                    }
-                });
+        dataModel.producerFactory(new IDataModelProducerFactory() {
+            @Override
+            public IDataModelProducer onCreateProducer(String tag) {
+                return dataModelProducer;
+            }
+        });
+        DataModelProviders.register("xxxx",dataModel);
+    }
 
-                dataModel.request("xxx");
+    private void test() {
+        dataModel.request("xxx");
     }
 }

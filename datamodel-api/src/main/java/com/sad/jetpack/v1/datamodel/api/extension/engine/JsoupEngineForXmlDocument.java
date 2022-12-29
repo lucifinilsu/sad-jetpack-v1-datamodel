@@ -10,12 +10,12 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class JsoupEngineForXmlDocument<RQ> extends JsoupEngine<RQ, Document> {
+public class JsoupEngineForXmlDocument extends JsoupEngine<Document> {
     @Override
-    public void onHandleJsoupResponse(IDataModelRequest<RQ> request, Connection.Response jsoupResponse, IDataModelChainOutput<RQ, Document> chainOutput) {
+    public void onHandleJsoupResponse(IDataModelRequest request, Connection.Response jsoupResponse, IDataModelChainOutput< Document> chainOutput) {
         int code=jsoupResponse.statusCode();
         DataSource dataSource= DataSource.NET;
-        IDataModelResponse<RQ,Document> netDataResponse= DataModelResponseImpl.<RQ,Document>newCreator()
+        IDataModelResponse<Document> netDataResponse= DataModelResponseImpl.<Document>newCreator()
                 .code(code)
                 .body(Jsoup.parse(jsoupResponse.body()))
                 .dataSource(dataSource)

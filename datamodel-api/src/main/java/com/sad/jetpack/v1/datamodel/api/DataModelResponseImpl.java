@@ -3,17 +3,17 @@ package com.sad.jetpack.v1.datamodel.api;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataModelResponseImpl<RQ,RP> implements IDataModelResponse<RQ,RP>, IDataModelResponse.Creator<RQ,RP> {
+public class DataModelResponseImpl<RP> implements IDataModelResponse<RP>, IDataModelResponse.Creator<RP> {
 
     private IDataModelRequest request;
-    //private IDataModelResponse<RQ,RP> cacheResponse;
+    //private IDataModelResponse<RP> cacheResponse;
     private int code=200;
     private RP body=null;
     private DataSource dataSource=DataSource.NET;
     private Map<String, String> headers=new HashMap<>();
     private DataModelResponseImpl(){}
-    public static <RQ,RP> Creator<RQ,RP> newCreator(){
-        return new DataModelResponseImpl<RQ,RP>();
+    public static <RP> Creator<RP> newCreator(){
+        return new DataModelResponseImpl<RP>();
     }
     @Override
     public IDataModelRequest request() {
@@ -41,53 +41,53 @@ public class DataModelResponseImpl<RQ,RP> implements IDataModelResponse<RQ,RP>, 
     }
 
     /*@Override
-    public IDataModelResponse<RQ, RP> cacheResponse() {
+    public IDataModelResponse< RP> cacheResponse() {
         return cacheResponse;
     }*/
 
     @Override
-    public Creator<RQ,RP> toCreator() {
+    public Creator<RP> toCreator() {
         return this;
     }
 
     @Override
-    public Creator<RQ,RP> code(int code) {
+    public Creator<RP> code(int code) {
         this.code=code;
         return this;
     }
 
     @Override
-    public Creator<RQ,RP> body(RP body) {
+    public Creator<RP> body(RP body) {
         this.body=body;
         return this;
     }
 
     @Override
-    public Creator<RQ,RP> headers(Map<String, String> headers) {
+    public Creator<RP> headers(Map<String, String> headers) {
         this.headers=headers;
         return this;
     }
 
     @Override
-    public Creator<RQ,RP> addHeader(String key, String value) {
+    public Creator<RP> addHeader(String key, String value) {
         this.headers.put(key,value);
         return this;
     }
 
     @Override
-    public Creator<RQ,RP> request(IDataModelRequest request) {
+    public Creator<RP> request(IDataModelRequest request) {
         this.request=request;
         return this;
     }
 
     @Override
-    public Creator<RQ,RP> dataSource(DataSource dataSource) {
+    public Creator<RP> dataSource(DataSource dataSource) {
         this.dataSource=dataSource;
         return this;
     }
 
     /*@Override
-    public Creator<RQ, RP> cacheResponse(IDataModelResponse<RQ, RP> cacheResponse) {
+    public Creator< RP> cacheResponse(IDataModelResponse< RP> cacheResponse) {
         this.cacheResponse=cacheResponse;
         return this;
     }*/

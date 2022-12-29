@@ -6,9 +6,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataModelRequestImpl<B> implements IDataModelRequest<B>, IDataModelRequest.Creator<B> {
+public class DataModelRequestImpl implements IDataModelRequest, IDataModelRequest.Creator {
     private static final int DEFAULT_TIMEOUT=5000;
-    private B body =null;
+    private Object body =null;
     private Map<String,String> headers=new HashMap<>();
     private long timeout=DEFAULT_TIMEOUT;
     private String url="";
@@ -17,8 +17,8 @@ public class DataModelRequestImpl<B> implements IDataModelRequest<B>, IDataModel
     
     private DataModelRequestImpl(){}
     
-    public static <B> Creator<B> newCreator(){
-        return new DataModelRequestImpl<B>();
+    public static Creator newCreator(){
+        return new DataModelRequestImpl();
     }
 
     @Override
@@ -32,8 +32,8 @@ public class DataModelRequestImpl<B> implements IDataModelRequest<B>, IDataModel
     }
 
     @Override
-    public B body() {
-        return body;
+    public<B> B body() {
+        return (B) body;
     }
 
     @Override
@@ -52,54 +52,54 @@ public class DataModelRequestImpl<B> implements IDataModelRequest<B>, IDataModel
     }
 
     @Override
-    public Creator<B> toCreator() {
+    public Creator toCreator() {
         return this;
     }
 
     @Override
-    public Creator<B> url(String url) {
+    public Creator url(String url) {
         this.url=url;
         return this;
     }
 
     @Override
-    public Creator<B> body(B body) {
+    public Creator body(Object body) {
         this.body = body;
         return this;
     }
 
     @Override
-    public Creator<B> headers(Map<String, String> headers) {
+    public Creator headers(Map<String, String> headers) {
         this.headers=headers;
         return this;
     }
 
     @Override
-    public Creator<B> addHeader(String key, String value) {
+    public Creator addHeader(String key, String value) {
         this.headers.put(key,value);
         return this;
     }
 
     @Override
-    public Creator<B> timeout(long timeout) {
+    public Creator timeout(long timeout) {
         this.timeout=timeout;
         return this;
     }
 
     @Override
-    public Creator<B> method(Method method) {
+    public Creator method(Method method) {
         this.method=method;
         return this;
     }
 
     @Override
-    public Creator<B> tag(String tag) {
+    public Creator tag(String tag) {
         this.tag=tag;
         return this;
     }
 
     @Override
-    public DataModelRequestImpl<B> create() {
+    public DataModelRequestImpl create() {
         return this;
     }
 }

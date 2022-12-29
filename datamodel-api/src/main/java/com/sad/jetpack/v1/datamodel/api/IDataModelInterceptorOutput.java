@@ -1,7 +1,7 @@
 package com.sad.jetpack.v1.datamodel.api;
 
-public interface IDataModelInterceptorOutput<RQ,RP> {
+public interface IDataModelInterceptorOutput<RP> {
 
-    void onInterceptedOutput(IDataModelChainOutput<RQ,RP> chainOutput) throws Exception;
+    void onInterceptedOutput(IDataModelChainOutput<RP> chainOutput) throws Exception;
 
 }

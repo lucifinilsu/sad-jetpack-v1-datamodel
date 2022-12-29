@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class DefaultStringCacheDataConverter<RQ> implements IStringCacheDataConverter<RQ,String>{
+public class DefaultStringCacheDataConverter implements IStringCacheDataConverter<String>{
     @Override
-    public String serializeResponse(IDataModelResponse<RQ, String> response) throws Exception {
+    public String serializeResponse(IDataModelResponse< String> response) throws Exception {
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("createTime",System.currentTimeMillis()+"");
         jsonObject.put("body",response.body());
@@ -34,12 +34,12 @@ public class DefaultStringCacheDataConverter<RQ> implements IStringCacheDataConv
     }
 
     @Override
-    public IDataModelResponse<RQ, String> deserializeString(IDataModelRequest<RQ> request, String value) throws Exception {
+    public IDataModelResponse< String> deserializeString(IDataModelRequest request, String value) throws Exception {
         if (TextUtils.isEmpty(value)){
             return null;
         }
         JSONObject jsonObject=new JSONObject(value);
-        IDataModelResponse.Creator<RQ,String> responseCreator= DataModelResponseImpl.<RQ,String>newCreator()
+        IDataModelResponse.Creator<String> responseCreator= DataModelResponseImpl.<String>newCreator()
                 .body(jsonObject.optString("body"))
                 .dataSource(DataSource.CACHE/*EnumUtils.valueOf(DataSource.class,jsonObject.optInt("dataSource"))*/)
                 .request(request)
@@ -56,7 +56,7 @@ public class DefaultStringCacheDataConverter<RQ> implements IStringCacheDataConv
     }
 
     @Override
-    public String createKeyFromRequest(IDataModelRequest<RQ> request) throws Exception{
+    public String createKeyFromRequest(IDataModelRequest request) throws Exception{
         return request.tag();
     }
 }

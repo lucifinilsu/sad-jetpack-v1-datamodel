@@ -2,19 +2,19 @@ package com.sad.jetpack.v1.datamodel.api;
 
 import androidx.annotation.NonNull;
 
-public interface IDataModelChainInput<RQ,RP> {
+public interface IDataModelChainInput<RP> {
 
     int currIndex();
 
-    IDataModelRequest<RQ> request();
+    IDataModelRequest request();
 
-    IDataModelResponse<RQ,RP> cacheResponse();
+    IDataModelResponse<RP> cacheResponse();
 
-    void proceed(@NonNull IDataModelRequest<RQ> request, IDataModelResponse<RQ,RP> cacheResponse,int index);
+    void proceed(@NonNull IDataModelRequest request, IDataModelResponse<RP> cacheResponse,int index);
 
-    IDataModelObtainedCallback<RQ,RP> callback();
+    IDataModelObtainedCallback<RP> callback();
 
-    IDataModelObtainedExceptionListener<RQ> exceptionListener();
+    IDataModelObtainedExceptionListener exceptionListener();
 
     default void proceed(){
         proceed(request(),cacheResponse(),currIndex());

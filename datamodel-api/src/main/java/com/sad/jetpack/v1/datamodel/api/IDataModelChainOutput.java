@@ -3,16 +3,16 @@ package com.sad.jetpack.v1.datamodel.api;
 
 import androidx.annotation.NonNull;
 
-public interface IDataModelChainOutput<RQ,RP> {
+public interface IDataModelChainOutput<RP> {
 
     @NonNull
-    IDataModelResponse<RQ,RP> response();
+    IDataModelResponse<RP> response();
 
-    IDataModelObtainedCallback<RQ,RP> callback();
+    IDataModelObtainedCallback<RP> callback();
 
-    IDataModelObtainedExceptionListener<RQ> exceptionListener();
+    IDataModelObtainedExceptionListener exceptionListener();
 
-    void proceed(IDataModelResponse<RQ,RP> response);
+    void proceed(IDataModelResponse<RP> response);
 
     default void proceed(){
         proceed(response());

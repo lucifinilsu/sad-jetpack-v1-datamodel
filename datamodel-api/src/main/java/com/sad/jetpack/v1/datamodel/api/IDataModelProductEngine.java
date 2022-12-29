@@ -1,7 +1,7 @@
 package com.sad.jetpack.v1.datamodel.api;
 
-public interface IDataModelProductEngine<RQ,RP> {
+public interface IDataModelProductEngine<RP> {
 
-    void onEngineExecute(IDataModelRequest<RQ> request, IDataModelChainOutput<RQ,RP> chainOutput) throws Exception;
+    void onEngineExecute(IDataModelRequest request, IDataModelChainOutput<RP> chainOutput) throws Exception;
 
 }

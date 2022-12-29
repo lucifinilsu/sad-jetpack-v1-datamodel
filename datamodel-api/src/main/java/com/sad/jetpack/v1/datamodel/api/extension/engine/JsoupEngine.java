@@ -10,9 +10,9 @@ import com.sad.jetpack.v1.datamodel.api.IDataModelRequest;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
-public abstract class JsoupEngine<RQ,RP> implements IDataModelProductEngine<RQ,RP> {
+public abstract class JsoupEngine<RP> implements IDataModelProductEngine<RP> {
     @Override
-    public void onEngineExecute(IDataModelRequest<RQ> request, IDataModelChainOutput<RQ,RP> chainOutput) throws Exception {
+    public void onEngineExecute(IDataModelRequest request, IDataModelChainOutput<RP> chainOutput) throws Exception {
         SADTaskSchedulerClient.newInstance()
                 .execute(new SADTaskRunnable<Connection.Response>("xxxx", new ISADTaskProccessListener<Connection.Response>() {
                     @Override
@@ -49,8 +49,8 @@ public abstract class JsoupEngine<RQ,RP> implements IDataModelProductEngine<RQ,R
                 });
     }
 
-    public abstract void onHandleJsoupResponse(IDataModelRequest<RQ> request, Connection.Response jsoupResponse, IDataModelChainOutput<RQ,RP> chainOutput);
-    public void onResetJsoupConnection(IDataModelRequest<RQ> request, Connection connection) {
+    public abstract void onHandleJsoupResponse(IDataModelRequest request, Connection.Response jsoupResponse, IDataModelChainOutput<RP> chainOutput);
+    public void onResetJsoupConnection(IDataModelRequest request, Connection connection) {
     }
 
     public Connection.Method methodTransform(IDataModelRequest.Method method){

@@ -8,12 +8,12 @@ import com.sad.jetpack.v1.datamodel.api.DataModelResponseImpl;
 
 import org.jsoup.Connection;
 
-public class JsoupEngineForString<RQ> extends JsoupEngine<RQ,String> {
+public class JsoupEngineForString extends JsoupEngine<String> {
     @Override
-    public void onHandleJsoupResponse(IDataModelRequest<RQ> request, Connection.Response jsoupResponse, IDataModelChainOutput<RQ, String> chainOutput) {
+    public void onHandleJsoupResponse(IDataModelRequest request, Connection.Response jsoupResponse, IDataModelChainOutput< String> chainOutput) {
         int code=jsoupResponse.statusCode();
         DataSource dataSource= DataSource.NET;
-        IDataModelResponse<RQ,String> netDataResponse= DataModelResponseImpl.<RQ,String>newCreator()
+        IDataModelResponse<String> netDataResponse= DataModelResponseImpl.<String>newCreator()
                 .code(code)
                 .body(jsoupResponse.body())
                 .dataSource(dataSource)

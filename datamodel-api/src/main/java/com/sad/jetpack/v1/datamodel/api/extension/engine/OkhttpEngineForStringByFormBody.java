@@ -11,9 +11,9 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
 
-public class OkhttpEngineForStringByFormBody extends OkhttpEngineForString<Map<String,String>> {
+public class OkhttpEngineForStringByFormBody extends OkhttpEngineForString {
     @Override
-    public void onRestOkhttpRequest(IDataModelRequest<Map<String,String>> request, Request.Builder okhttpRequestBuilder) {
+    public void onRestOkhttpRequest(IDataModelRequest request, Request.Builder okhttpRequestBuilder) {
         if (request.method()== IDataModelRequest.Method.POST){
             Map<String,String> orgRequestBody=request.body();
             MultipartBody.Builder builder=new MultipartBody.Builder();

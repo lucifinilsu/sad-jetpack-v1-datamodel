@@ -3,25 +3,25 @@ package com.sad.jetpack.v1.datamodel.api;
 
 import java.util.List;
 
-public interface IDataModelProducer<RQ,RP> {
+public interface IDataModelProducer<RP> {
 
-    IDataModelProducer<RQ,RP> request(IDataModelRequest<RQ> request);
+    IDataModelProducer<RP> request(IDataModelRequest request);
 
-    IDataModelProducer<RQ,RP> addInputInterceptor(IDataModelInterceptorInput<RQ,RP> input);
+    IDataModelProducer<RP> addInputInterceptor(IDataModelInterceptorInput<RP> input);
 
-    IDataModelProducer<RQ,RP> interceptorInputs(List<IDataModelInterceptorInput<RQ,RP>> interceptorInputs);
+    IDataModelProducer<RP> interceptorInputs(List<IDataModelInterceptorInput<RP>> interceptorInputs);
 
-    IDataModelProducer<RQ,RP> addOutputInterceptor(IDataModelInterceptorOutput<RQ,RP> output);
+    IDataModelProducer<RP> addOutputInterceptor(IDataModelInterceptorOutput<RP> output);
 
-    IDataModelProducer<RQ,RP> interceptorOutputs(List<IDataModelInterceptorOutput<RQ,RP>> interceptorOutputs);
+    IDataModelProducer<RP> interceptorOutputs(List<IDataModelInterceptorOutput<RP>> interceptorOutputs);
 
-    IDataModelProducer<RQ,RP> callback(IDataModelObtainedCallback<RQ,RP> callback);
+    IDataModelProducer<RP> callback(IDataModelObtainedCallback<RP> callback);
 
-    IDataModelProducer<RQ,RP> exceptionListener(IDataModelObtainedExceptionListener<RQ> exceptionListener);
+    IDataModelProducer<RP> exceptionListener(IDataModelObtainedExceptionListener exceptionListener);
 
-    IDataModelProducer<RQ,RP> engine(IDataModelProductEngine<RQ,RP> engine);
+    IDataModelProducer<RP> engine(IDataModelProductEngine<RP> engine);
 
-    IDataModelProducer<RQ,RP> dataModel(IDataModel dataModel);
+    IDataModelProducer<RP> dataModel(IDataModel dataModel);
 
     void execute();
 

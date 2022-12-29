@@ -1,7 +1,7 @@
 package com.sad.jetpack.v1.datamodel.api;
 
-public interface IDataModelObtainedExceptionListener<RQ> {
+public interface IDataModelObtainedExceptionListener {
 
-    void onDataObtainedException(IDataModelRequest<RQ> request, Throwable throwable);
+    void onDataObtainedException(IDataModelRequest request, Throwable throwable);
 
 }

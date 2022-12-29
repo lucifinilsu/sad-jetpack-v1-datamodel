@@ -2,13 +2,13 @@ package com.sad.jetpack.v1.datamodel.api;
 
 import java.util.Map;
 
-public interface IDataModelRequest<B> {
+public interface IDataModelRequest {
 
     String tag();
 
     String url();
 
-    B body();
+    <B> B body();
 
     Map<String,String> headers();
 
@@ -16,25 +16,25 @@ public interface IDataModelRequest<B> {
 
     Method method();
 
-    Creator<B> toCreator();
+    Creator toCreator();
 
-    interface Creator<B>{
+    interface Creator{
 
-        Creator<B> url(String url);
+        Creator url(String url);
 
-        Creator<B> body(B body);
+        Creator body(Object body);
 
-        Creator<B> headers(Map<String,String> headers);
+        Creator headers(Map<String,String> headers);
 
-        Creator<B> addHeader(String key, String value);
+        Creator addHeader(String key, String value);
 
-        Creator<B> timeout(long timeout);
+        Creator timeout(long timeout);
 
-        Creator<B> method(Method method);
+        Creator method(Method method);
 
-        Creator<B> tag(String tag);
+        Creator tag(String tag);
 
-        IDataModelRequest<B> create();
+        IDataModelRequest create();
     }
 
     enum Method{

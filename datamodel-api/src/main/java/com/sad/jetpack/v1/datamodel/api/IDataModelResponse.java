@@ -2,9 +2,9 @@ package com.sad.jetpack.v1.datamodel.api;
 
 import java.util.Map;
 
-public interface IDataModelResponse<RQ,RP> {
+public interface IDataModelResponse<RP> {
 
-    IDataModelRequest<RQ> request();
+    IDataModelRequest request();
 
     int code();
 
@@ -14,27 +14,27 @@ public interface IDataModelResponse<RQ,RP> {
 
     Map<String,String> headers();
 
-    //IDataModelResponse<RQ,RP> cacheResponse();
+    //IDataModelResponse<RP> cacheResponse();
 
-    Creator<RQ,RP> toCreator();
+    Creator<RP> toCreator();
 
-    interface Creator<RQ,RP>{
+    interface Creator<RP>{
 
-        Creator<RQ,RP> code(int code);
+        Creator<RP> code(int code);
 
-        Creator<RQ,RP> body(RP body);
+        Creator<RP> body(RP body);
 
-        Creator<RQ,RP> headers(Map<String,String> headers);
+        Creator<RP> headers(Map<String,String> headers);
 
-        Creator<RQ,RP> addHeader(String key, String value);
+        Creator<RP> addHeader(String key, String value);
 
-        Creator<RQ,RP> request(IDataModelRequest request);
+        Creator<RP> request(IDataModelRequest request);
 
-        Creator<RQ,RP> dataSource(DataSource dataSource);
+        Creator<RP> dataSource(DataSource dataSource);
 
-        //Creator<RQ,RP> cacheResponse(IDataModelResponse<RQ,RP> cacheResponse);
+        //Creator<RP> cacheResponse(IDataModelResponse<RP> cacheResponse);
 
-        IDataModelResponse<RQ,RP> create();
+        IDataModelResponse<RP> create();
     }
 
 

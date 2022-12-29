@@ -16,14 +16,14 @@ import okhttp3.Headers;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public abstract class OkhttpEngineForString<RQ> extends OkHttpEngine<RQ,String> {
+public abstract class OkhttpEngineForString extends OkHttpEngine<String> {
 
     @Override
-    public void onHandleOkhttpResponse(IDataModelRequest<RQ> request, Response response, IDataModelChainOutput<RQ, String> chainOutput) throws IOException {
+    public void onHandleOkhttpResponse(IDataModelRequest request, Response response, IDataModelChainOutput<String> chainOutput) throws IOException {
         ResponseBody responseBody=response.body();
         int code=response.code();
         DataSource dataSource= DataSource.NET;
-        IDataModelResponse.Creator<RQ,String> creator= DataModelResponseImpl.<RQ,String>newCreator()
+        IDataModelResponse.Creator<String> creator= DataModelResponseImpl.<String>newCreator()
             .code(code)
             .body(responseBody.string())
             .dataSource(dataSource)
@@ -40,7 +40,7 @@ public abstract class OkhttpEngineForString<RQ> extends OkHttpEngine<RQ,String> 
             }
         }
         creator.headers(h);
-        IDataModelResponse<RQ,String> netDataResponse=creator.create();
+        IDataModelResponse<String> netDataResponse=creator.create();
         chainOutput.proceed(netDataResponse);
     }
 }

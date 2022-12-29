@@ -4,62 +4,62 @@ package com.sad.jetpack.v1.datamodel.api;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataModelProducerImpl<RQ,RP> implements IDataModelProducer<RQ,RP> {
+public class DataModelProducerImpl<RP> implements IDataModelProducer<RP> {
 
-    private IDataModelRequest<RQ> request;
-    private IDataModelObtainedCallback<RQ,RP> callback;
-    private IDataModelObtainedExceptionListener<RQ> exceptionListener;
-    private IDataModelProductEngine<RQ,RP> engine;
-    private List<IDataModelInterceptorInput<RQ,RP>> interceptorInputs=new ArrayList<>();
-    private List<IDataModelInterceptorOutput<RQ,RP>> interceptorOutputs=new ArrayList<>();
+    private IDataModelRequest request;
+    private IDataModelObtainedCallback<RP> callback;
+    private IDataModelObtainedExceptionListener exceptionListener;
+    private IDataModelProductEngine<RP> engine;
+    private List<IDataModelInterceptorInput<RP>> interceptorInputs=new ArrayList<>();
+    private List<IDataModelInterceptorOutput<RP>> interceptorOutputs=new ArrayList<>();
     private IDataModel dataModel;
 
     private DataModelProducerImpl(){
 
     }
 
-    public static <RQ,RP> IDataModelProducer<RQ,RP> newInstance(){
-        return new DataModelProducerImpl<RQ,RP>();
+    public static <RP> IDataModelProducer<RP> newInstance(){
+        return new DataModelProducerImpl<RP>();
     }
 
     @Override
-    public IDataModelProducer<RQ,RP> request(IDataModelRequest request) {
+    public IDataModelProducer<RP> request(IDataModelRequest request) {
         this.request=request;
         return this;
     }
 
     @Override
-    public IDataModelProducer<RQ,RP> addInputInterceptor(IDataModelInterceptorInput input) {
+    public IDataModelProducer<RP> addInputInterceptor(IDataModelInterceptorInput input) {
         this.interceptorInputs.add(input);
         return this;
     }
 
     @Override
-    public IDataModelProducer<RQ,RP> addOutputInterceptor(IDataModelInterceptorOutput output) {
+    public IDataModelProducer<RP> addOutputInterceptor(IDataModelInterceptorOutput output) {
         interceptorOutputs.add(output);
         return this;
     }
 
     @Override
-    public IDataModelProducer<RQ,RP> callback(IDataModelObtainedCallback callback) {
+    public IDataModelProducer<RP> callback(IDataModelObtainedCallback callback) {
         this.callback=callback;
         return this;
     }
 
     @Override
-    public IDataModelProducer<RQ,RP> exceptionListener(IDataModelObtainedExceptionListener<RQ> exceptionListener) {
+    public IDataModelProducer<RP> exceptionListener(IDataModelObtainedExceptionListener exceptionListener) {
         this.exceptionListener=exceptionListener;
         return this;
     }
 
     @Override
-    public IDataModelProducer<RQ,RP> engine(IDataModelProductEngine<RQ,RP> engine) {
+    public IDataModelProducer<RP> engine(IDataModelProductEngine<RP> engine) {
         this.engine=engine;
         return this;
     }
 
     @Override
-    public IDataModelProducer<RQ, RP> dataModel(IDataModel dataModel) {
+    public IDataModelProducer< RP> dataModel(IDataModel dataModel) {
         this.dataModel=dataModel;
         return this;
     }
@@ -67,18 +67,18 @@ public class DataModelProducerImpl<RQ,RP> implements IDataModelProducer<RQ,RP> {
     @Override
     public void execute() {
         addInputInterceptor(new InternalTerminalDataModelInterceptorInput(interceptorOutputs,engine,dataModel));
-        InternalDataModelChainInput<RQ,RP> chainInput=new InternalDataModelChainInput<>(interceptorInputs,callback,exceptionListener);
+        InternalDataModelChainInput<RP> chainInput=new InternalDataModelChainInput<>(interceptorInputs,callback,exceptionListener);
         chainInput.proceed(request,null,chainInput.currIndex());
     }
 
     @Override
-    public IDataModelProducer<RQ,RP> interceptorOutputs(List<IDataModelInterceptorOutput<RQ,RP>> list) {
+    public IDataModelProducer<RP> interceptorOutputs(List<IDataModelInterceptorOutput<RP>> list) {
         this.interceptorOutputs=list;
         return this;
     }
 
     @Override
-    public IDataModelProducer<RQ,RP> interceptorInputs(List<IDataModelInterceptorInput<RQ,RP>> list) {
+    public IDataModelProducer<RP> interceptorInputs(List<IDataModelInterceptorInput<RP>> list) {
         this.interceptorInputs=list;
         return this;
     }

@@ -6,7 +6,7 @@ import com.sad.jetpack.v1.datamodel.api.IDataModelInterceptorInput;
 import com.sad.jetpack.v1.datamodel.api.IDataModelInterceptorOutput;
 import com.sad.jetpack.v1.datamodel.api.utils.LogcatUtils;
 
-public class LogDataModelInterceptor implements IDataModelInterceptorInput<String,String>, IDataModelInterceptorOutput<String,String> {
+public class LogDataModelInterceptor implements IDataModelInterceptorInput<String>, IDataModelInterceptorOutput<String> {
 
     private LogDataModelInterceptor(){}
 
@@ -14,7 +14,7 @@ public class LogDataModelInterceptor implements IDataModelInterceptorInput<Strin
         return new LogDataModelInterceptor();
     }
     @Override
-    public void onInterceptedInput(IDataModelChainInput<String, String> chainInput) throws Exception {
+    public void onInterceptedInput(IDataModelChainInput<String> chainInput) throws Exception {
         LogcatUtils.e("DataCenter","[request-url]"+chainInput.request().url());
         LogcatUtils.e("DataCenter","[request-body]"+chainInput.request().body());
         LogcatUtils.e("DataCenter","[request-method]"+chainInput.request().method());
@@ -25,7 +25,7 @@ public class LogDataModelInterceptor implements IDataModelInterceptorInput<Strin
     }
 
     @Override
-    public void onInterceptedOutput(IDataModelChainOutput<String, String> chainOutput) throws Exception {
+    public void onInterceptedOutput(IDataModelChainOutput<String> chainOutput) throws Exception {
         LogcatUtils.e("DataCenter","[response-url]"+ chainOutput.response().request().url());
         LogcatUtils.e("DataCenter","[response-body]"+ chainOutput.response().body());
         LogcatUtils.e("DataCenter","[response-code]"+ chainOutput.response().code());

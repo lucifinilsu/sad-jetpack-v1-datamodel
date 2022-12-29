@@ -13,22 +13,22 @@ import com.sad.jetpack.v1.datamodel.api.IDataModelInterceptorOutput;
 import com.sad.jetpack.v1.datamodel.api.IDataModelResponse;
 import com.sad.jetpack.v1.datamodel.api.extension.cache.ICacheEntity;
 import com.sad.jetpack.v1.datamodel.api.utils.LogcatUtils;
-public class DefaultStringCacheDataModelInterceptor<RQ> implements IDataModelInterceptorInput<RQ,String>, IDataModelInterceptorOutput<RQ,String> {
+public class DefaultStringCacheDataModelInterceptor implements IDataModelInterceptorInput<String>, IDataModelInterceptorOutput<String> {
     private Context context;
-    private IStringCacheDataConverter<RQ,String> cacheDataConverter;
-    private ICacheDataChainAction<RQ,String> cacheDataChainAction;
+    private IStringCacheDataConverter<String> cacheDataConverter;
+    private ICacheDataChainAction<String> cacheDataChainAction;
     private ICacheLoader<String> cacheLoader;
     private int thisIndex=0;
 
 
 
     public DefaultStringCacheDataModelInterceptor(Context context) {
-        this(context,new DefaultCacheLoader(context),new DefaultStringCacheDataConverter<RQ>(),null);
+        this(context,new DefaultCacheLoader(context),new DefaultStringCacheDataConverter(),null);
     }
     public DefaultStringCacheDataModelInterceptor(Context context,
                                                   ICacheLoader<String> cacheLoader,
-                                                  IStringCacheDataConverter<RQ,String> cacheDataConverter,
-                                                  ICacheDataChainAction<RQ,String> cacheDataChainAction
+                                                  IStringCacheDataConverter<String> cacheDataConverter,
+                                                  ICacheDataChainAction<String> cacheDataChainAction
 
     ) {
         this.context = context;
@@ -38,7 +38,7 @@ public class DefaultStringCacheDataModelInterceptor<RQ> implements IDataModelInt
     }
 
     @Override
-    public void onInterceptedInput(IDataModelChainInput<RQ, String> chainInput) throws Exception {
+    public void onInterceptedInput(IDataModelChainInput< String> chainInput) throws Exception {
         this.thisIndex=chainInput.currIndex();
         //策略：
         // 内容返回型接口：
@@ -61,7 +61,7 @@ public class DefaultStringCacheDataModelInterceptor<RQ> implements IDataModelInt
                 LogcatUtils.e("----->读取缓存：createTime="+createTime+",cx="+cx);
                 String cacheValue=cacheEntity.cacheValue();
                 if (!TextUtils.isEmpty(cacheValue)){
-                    IDataModelResponse<RQ,String> cacheResponse=cacheDataConverter.deserializeString(chainInput.request(), cacheValue);
+                    IDataModelResponse<String> cacheResponse=cacheDataConverter.deserializeString(chainInput.request(), cacheValue);
                     LogcatUtils.e("----->读取缓存：key="+key+",value="+cacheResponse);
                     if (cx<=CACHE_F){
                         LogcatUtils.e("----->读取缓存：10s内");
@@ -69,12 +69,12 @@ public class DefaultStringCacheDataModelInterceptor<RQ> implements IDataModelInt
                         chainInput.proceed(chainInput.request(), cacheResponse,thisIndex);
                     }
                     else if (cx>CACHE_F && cx <=CACHE_ADV){
-                        LogcatUtils.e("----->读取缓存：10s-15s内");
+                        LogcatUtils.e("----->读取缓存：10s-3600s内");
                         //10s-3600s，直接访问数据源
                         chainInput.proceed();
                     }
                     else {
-                        LogcatUtils.e("----->读取缓存：15s以上");
+                        LogcatUtils.e("----->读取缓存：3600s以上");
                         //3600s-以上，先取缓存，缓存不空先使用缓存。接着访问数据源
                         //这里开放给外部一个接口，可由外部控制合适的实机进行数据源访问，如果外部不定义，或者方法返回false，那么直接再次访问数据源
                         chainInput.proceed(chainInput.request(), cacheResponse,chainInput.currIndex());
@@ -101,7 +101,7 @@ public class DefaultStringCacheDataModelInterceptor<RQ> implements IDataModelInt
     }
 
     @Override
-    public void onInterceptedOutput(IDataModelChainOutput<RQ, String> chainOutput) throws Exception {
+    public void onInterceptedOutput(IDataModelChainOutput< String> chainOutput) throws Exception {
         try{
             if (chainOutput.response().dataSource()!=DataSource.CACHE){
                 String key=cacheDataConverter.createKeyFromRequest(chainOutput.response().request());

@@ -4,7 +4,7 @@ import java.util.Observer;
 
 public interface IDataModel {
 
-    <RQ,RP> IDataModelResponse<RQ,RP> get(String tag);
+    <RP> IDataModelResponse<RP> get(String tag);
 
     void request(String tag);
 

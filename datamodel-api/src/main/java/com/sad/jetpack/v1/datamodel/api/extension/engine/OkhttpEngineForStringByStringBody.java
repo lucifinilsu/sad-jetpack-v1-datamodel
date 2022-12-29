@@ -6,11 +6,11 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class OkhttpEngineForStringByStringBody extends OkhttpEngineForString<String> {
+public class OkhttpEngineForStringByStringBody extends OkhttpEngineForString {
     @Override
-    public void onRestOkhttpRequest(IDataModelRequest<String> request, Request.Builder okhttpRequestBuilder) {
+    public void onRestOkhttpRequest(IDataModelRequest request, Request.Builder okhttpRequestBuilder) {
         if (request.method()== IDataModelRequest.Method.POST){
-            okhttpRequestBuilder=okhttpRequestBuilder.post(RequestBody.create(request.body(), MediaType.parse("application/json;charset=utf-8")));
+            okhttpRequestBuilder=okhttpRequestBuilder.post(RequestBody.create(request.body().toString(), MediaType.parse("application/json;charset=utf-8")));
         }
     }
 }

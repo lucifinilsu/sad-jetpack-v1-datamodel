@@ -3,18 +3,18 @@ package com.sad.jetpack.v1.datamodel.api;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InternalDataModelChainOutput<RQ,RP> implements IDataModelChainOutput<RQ,RP> {
-    private IDataModelResponse<RQ, RP> response;
-    private List<IDataModelInterceptorOutput<RQ,RP>> interceptorOutputs=new ArrayList<>();
+public class InternalDataModelChainOutput<RP> implements IDataModelChainOutput<RP> {
+    private IDataModelResponse<RP> response;
+    private List<IDataModelInterceptorOutput<RP>> interceptorOutputs=new ArrayList<>();
     private int currIndex=-1;
-    private IDataModelObtainedCallback<RQ,RP> callback;
-    private IDataModelObtainedExceptionListener<RQ> exceptionListener;
+    private IDataModelObtainedCallback<RP> callback;
+    private IDataModelObtainedExceptionListener exceptionListener;
     private IDataModel dataModel;
 
     public InternalDataModelChainOutput(
-            List<IDataModelInterceptorOutput<RQ, RP>> interceptorOutputs,
-            IDataModelObtainedCallback<RQ, RP> callback,
-            IDataModelObtainedExceptionListener<RQ> exceptionListener,
+            List<IDataModelInterceptorOutput< RP>> interceptorOutputs,
+            IDataModelObtainedCallback< RP> callback,
+            IDataModelObtainedExceptionListener exceptionListener,
             IDataModel dataModel
     ) {
         this.interceptorOutputs = interceptorOutputs;
@@ -24,23 +24,23 @@ public class InternalDataModelChainOutput<RQ,RP> implements IDataModelChainOutpu
     }
 
     @Override
-    public IDataModelResponse<RQ, RP> response() {
+    public IDataModelResponse< RP> response() {
         return response;
     }
 
     @Override
-    public IDataModelObtainedCallback<RQ, RP> callback() {
+    public IDataModelObtainedCallback< RP> callback() {
         return this.callback;
     }
 
     @Override
-    public IDataModelObtainedExceptionListener<RQ> exceptionListener() {
+    public IDataModelObtainedExceptionListener exceptionListener() {
         return this.exceptionListener;
     }
 
 
     @Override
-    public void proceed(IDataModelResponse<RQ, RP> response) {
+    public void proceed(IDataModelResponse< RP> response) {
         this.response=response;
         this.currIndex++;
         if (currIndex>interceptorOutputs.size()-1){
@@ -53,7 +53,7 @@ public class InternalDataModelChainOutput<RQ,RP> implements IDataModelChainOutpu
             currIndex=-1;
         }
         else {
-            IDataModelInterceptorOutput<RQ,RP> interceptorOutput=interceptorOutputs.get(currIndex);
+            IDataModelInterceptorOutput<RP> interceptorOutput=interceptorOutputs.get(currIndex);
             try {
                 interceptorOutput.onInterceptedOutput(this);
             }catch (Exception e){

@@ -9,7 +9,7 @@ public class DefaultDataModel extends Observable implements IDataModel {
     private IDataModelProducerFactory producerFactory;
 
     @Override
-    public <RQ, RP> IDataModelResponse<RQ, RP> get(String tag) {
+    public <RP> IDataModelResponse<RP> get(String tag) {
         return responseRepository.get(tag);
     }
 

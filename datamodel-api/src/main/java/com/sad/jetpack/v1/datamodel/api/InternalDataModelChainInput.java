@@ -7,18 +7,18 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<RQ,RP> {
-    private IDataModelRequest<RQ> request;
-    private List<IDataModelInterceptorInput<RQ,RP>> interceptorInputs=new ArrayList<>();
+public class InternalDataModelChainInput<RP> implements IDataModelChainInput<RP> {
+    private IDataModelRequest request;
+    private List<IDataModelInterceptorInput<RP>> interceptorInputs=new ArrayList<>();
     private int currIndex=-1;
-    private IDataModelObtainedCallback<RQ,RP> callback;
-    private IDataModelObtainedExceptionListener<RQ> exceptionListener;
-    private IDataModelResponse<RQ,RP> cacheResponse;
+    private IDataModelObtainedCallback<RP> callback;
+    private IDataModelObtainedExceptionListener exceptionListener;
+    private IDataModelResponse<RP> cacheResponse;
 
     public InternalDataModelChainInput(
-            List<IDataModelInterceptorInput<RQ,RP>> interceptorInputs,
-            IDataModelObtainedCallback<RQ, RP> callback,
-            IDataModelObtainedExceptionListener<RQ> exceptionListener
+            List<IDataModelInterceptorInput<RP>> interceptorInputs,
+            IDataModelObtainedCallback<RP> callback,
+            IDataModelObtainedExceptionListener exceptionListener
     ) {
         this.interceptorInputs = interceptorInputs;
         this.callback = callback;
@@ -32,18 +32,18 @@ public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<
     }
 
     @Override
-    public IDataModelRequest<RQ> request() {
+    public IDataModelRequest request() {
         return this.request;
     }
 
     @Override
-    public IDataModelResponse<RQ, RP> cacheResponse() {
+    public IDataModelResponse< RP> cacheResponse() {
         return this.cacheResponse;
     }
 
 
     @Override
-    public void proceed(@NonNull IDataModelRequest<RQ> request, IDataModelResponse<RQ, RP> cacheResponse, int index) {
+    public void proceed(@NonNull IDataModelRequest request, IDataModelResponse< RP> cacheResponse, int index) {
         this.request=request;
         this.cacheResponse=cacheResponse;
         this.currIndex=index;
@@ -58,7 +58,7 @@ public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<
             return;
         }
         else {
-            IDataModelInterceptorInput<RQ,RP> interceptorInput=interceptorInputs.get(currIndex);
+            IDataModelInterceptorInput<RP> interceptorInput=interceptorInputs.get(currIndex);
             Log.e("sad-jetpack-v1","---------------->内部输入链执行："+interceptorInput);
             try {
                 interceptorInput.onInterceptedInput(this);
@@ -73,12 +73,12 @@ public class InternalDataModelChainInput<RQ,RP> implements IDataModelChainInput<
     }
 
     @Override
-    public IDataModelObtainedCallback<RQ, RP> callback() {
+    public IDataModelObtainedCallback< RP> callback() {
         return this.callback;
     }
 
     @Override
-    public IDataModelObtainedExceptionListener<RQ> exceptionListener() {
+    public IDataModelObtainedExceptionListener exceptionListener() {
         return this.exceptionListener;
     }
 
