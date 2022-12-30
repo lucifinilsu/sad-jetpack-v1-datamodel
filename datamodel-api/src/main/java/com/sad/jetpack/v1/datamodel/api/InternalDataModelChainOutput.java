@@ -12,8 +12,8 @@ public class InternalDataModelChainOutput<RP> implements IDataModelChainOutput<R
     private IDataModel dataModel;
 
     public InternalDataModelChainOutput(
-            List<IDataModelInterceptorOutput< RP>> interceptorOutputs,
-            IDataModelObtainedCallback< RP> callback,
+            List<IDataModelInterceptorOutput<RP>> interceptorOutputs,
+            IDataModelObtainedCallback<RP> callback,
             IDataModelObtainedExceptionListener exceptionListener,
             IDataModel dataModel
     ) {
@@ -24,12 +24,12 @@ public class InternalDataModelChainOutput<RP> implements IDataModelChainOutput<R
     }
 
     @Override
-    public IDataModelResponse< RP> response() {
+    public IDataModelResponse<RP> response() {
         return response;
     }
 
     @Override
-    public IDataModelObtainedCallback< RP> callback() {
+    public IDataModelObtainedCallback<RP> callback() {
         return this.callback;
     }
 
@@ -40,7 +40,7 @@ public class InternalDataModelChainOutput<RP> implements IDataModelChainOutput<R
 
 
     @Override
-    public void proceed(IDataModelResponse< RP> response) {
+    public void proceed(IDataModelResponse<RP> response) {
         this.response=response;
         this.currIndex++;
         if (currIndex>interceptorOutputs.size()-1){

@@ -73,7 +73,7 @@ public class InternalDataModelChainInput<RP> implements IDataModelChainInput<RP>
     }
 
     @Override
-    public IDataModelObtainedCallback< RP> callback() {
+    public IDataModelObtainedCallback<RP> callback() {
         return this.callback;
     }
 

@@ -20,6 +20,9 @@ public abstract class OkhttpEngineForString extends OkHttpEngine<String> {
 
     @Override
     public void onHandleOkhttpResponse(IDataModelRequest request, Response response, IDataModelChainOutput<String> chainOutput) throws IOException {
+        if (response==null){
+            throw new IOException("okttp response==null !!!");
+        }
         ResponseBody responseBody=response.body();
         int code=response.code();
         DataSource dataSource= DataSource.NET;
