@@ -33,6 +33,7 @@ import java.util.Observer;
 public class SecondActivity extends AppCompatActivity {
     private TextView tv_console;
     private IDataModel dataModel;
+    private Observer observer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,17 +43,31 @@ public class SecondActivity extends AppCompatActivity {
     }
     private void initView(){
         tv_console=findViewById(R.id.console2);
-        //观察者
-        dataModel.addObserver(new Observer() {
-            @Override
-            public void update(Observable o, Object arg) {
-                LogcatUtils.e("观察者接收到变化,arg="+arg);
+
+        if (dataModel!=null){
+            IDataModelResponse<String> response=dataModel.get("xxx");
+            if (response!=null){
+                tv_console.setText(response.body());
             }
-        });
+            //观察者
+            observer=new Observer() {
+                @Override
+                public void update(Observable o, Object arg) {
+                    LogcatUtils.e("观察者接收到变化,arg="+arg);
+                    IDataModelResponse<String> responseNew= (IDataModelResponse<String>) arg;
+                    tv_console.setText(responseNew.body());
+                }
+            };
+            dataModel.addObserver(observer);
+        }
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (dataModel!=null){
+            dataModel.deleteObserver(observer);
+        }
     }
 }

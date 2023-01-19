@@ -2,6 +2,8 @@ package com.sad.jetpack.v1.datamodel.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,10 +32,11 @@ import com.sad.jetpack.v1.datamodel.api.utils.LogcatUtils;
 
 public class MainActivity extends AppCompatActivity {
     private AppCompatButton button_start;
-    private TextView tv_console;
+    //private TextView tv_console;
     private AppCompatButton button_cleanCache;
     private AppCompatButton button_ac2;
     private IDataModel dataModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         DefaultCacheLoader.initCacheLoader(getApplicationContext());
         dataModel = new DefaultDataModel();
-        initView();
         configDataModel(dataModel);
+        initView();
+
     }
 
     private void initView() {
-
         button_start = findViewById(R.id.startTest);
-        tv_console = findViewById(R.id.console);
+        //tv_console = findViewById(R.id.console);
         button_cleanCache = findViewById(R.id.cleanCache);
         button_ac2 = findViewById(R.id.ac2);
         button_start.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +72,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });
+
+        FragmentMaster.with(getSupportFragmentManager())
+                .prePare(new Fragment1())
+                .choiceMode()
+                .addAllToContainer(R.id.fragment_container1)
+                .hideAll(Lifecycle.State.STARTED)
+                .show(0, Lifecycle.State.RESUMED);
+        FragmentMaster.with(getSupportFragmentManager())
+                .prePare(new Fragment1())
+                .choiceMode()
+                .addAllToContainer(R.id.fragment_container2)
+                .hideAll(Lifecycle.State.STARTED)
+                .show(0, Lifecycle.State.RESUMED);
     }
 
     private void configDataModel(IDataModel dataModel) {
@@ -94,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (response.dataSource() == DataSource.NET) {
                                     Toast.makeText(getApplicationContext(), "重新请求数据", Toast.LENGTH_SHORT).show();
                                 }
-                                tv_console.setText(response.body());
+                                //tv_console.setText(response.body());
 
                             }
                         });
