@@ -15,7 +15,7 @@ public class DefaultDataModel extends Observable implements IDataModel {
 
     public void request(String tag){
         if (producerFactory!=null){
-            IDataModelProducer  producer=producerFactory.onCreateProducer(tag);
+            IDataModelProducer  producer=producerFactory.dataModelProducer(tag);
             producer.dataModel(this);
             producer.execute();
         }

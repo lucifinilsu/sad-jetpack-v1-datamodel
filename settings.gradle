@@ -11,7 +11,7 @@ pluginManagement {
 
 //配置项目的远程依赖仓库
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)//由于工程加入了Kotlin支持，所以将其放开
     repositories {
         google()
         mavenCentral()

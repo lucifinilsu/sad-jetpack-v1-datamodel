@@ -23,7 +23,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SecondActivity"/>
+        <activity
+            android:exported="true"
+            android:process=":newProcess"
+            android:name=".SecondActivity"/>
     </application>
 
 </manifest>

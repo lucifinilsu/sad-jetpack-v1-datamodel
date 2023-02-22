@@ -1,30 +1,14 @@
 package com.sad.jetpack.v1.datamodel.demo;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 
-import com.sad.jetpack.v1.datamodel.api.DataModelProducerImpl;
 import com.sad.jetpack.v1.datamodel.api.DataModelProviders;
-import com.sad.jetpack.v1.datamodel.api.DataModelRequestImpl;
-import com.sad.jetpack.v1.datamodel.api.DataSource;
-import com.sad.jetpack.v1.datamodel.api.DefaultDataModel;
 import com.sad.jetpack.v1.datamodel.api.IDataModel;
-import com.sad.jetpack.v1.datamodel.api.IDataModelObtainedCallback;
-import com.sad.jetpack.v1.datamodel.api.IDataModelObtainedExceptionListener;
-import com.sad.jetpack.v1.datamodel.api.IDataModelProducer;
-import com.sad.jetpack.v1.datamodel.api.IDataModelProducerFactory;
-import com.sad.jetpack.v1.datamodel.api.IDataModelRequest;
 import com.sad.jetpack.v1.datamodel.api.IDataModelResponse;
-import com.sad.jetpack.v1.datamodel.api.extension.cache.CacheUtil;
-import com.sad.jetpack.v1.datamodel.api.extension.engine.OkhttpEngineForStringByStringBody;
-import com.sad.jetpack.v1.datamodel.api.extension.interceptor.DefaultCacheLoader;
-import com.sad.jetpack.v1.datamodel.api.extension.interceptor.DefaultStringCacheDataModelInterceptor;
-import com.sad.jetpack.v1.datamodel.api.extension.interceptor.LogDataModelInterceptor;
+import com.sad.jetpack.v1.datamodel.api.extension.client.socket.ipc.IPCServer;
 import com.sad.jetpack.v1.datamodel.api.utils.LogcatUtils;
 
 import java.util.Observable;
@@ -40,6 +24,7 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
         dataModel=DataModelProviders.get("xxxx");
         initView();
+        testClientSocket();
     }
     private void initView(){
         tv_console=findViewById(R.id.console2);
@@ -69,5 +54,9 @@ public class SecondActivity extends AppCompatActivity {
         if (dataModel!=null){
             dataModel.deleteObserver(observer);
         }
+    }
+
+    private void testClientSocket(){
+        LogcatUtils.e("client获取server的地址信息："+ IPCServer.getServerAddress(this).toString());
     }
 }

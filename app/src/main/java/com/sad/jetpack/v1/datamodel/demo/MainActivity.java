@@ -2,13 +2,11 @@ package com.sad.jetpack.v1.datamodel.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sad.jetpack.v1.datamodel.api.DataModelProducerImpl;
@@ -28,6 +26,7 @@ import com.sad.jetpack.v1.datamodel.api.extension.engine.OkhttpEngineForStringBy
 import com.sad.jetpack.v1.datamodel.api.extension.interceptor.DefaultCacheLoader;
 import com.sad.jetpack.v1.datamodel.api.extension.interceptor.LogDataModelInterceptor;
 import com.sad.jetpack.v1.datamodel.api.extension.interceptor.DefaultStringCacheDataModelInterceptor;
+import com.sad.jetpack.v1.datamodel.api.extension.client.socket.ipc.IPCServer;
 import com.sad.jetpack.v1.datamodel.api.utils.LogcatUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         dataModel = new DefaultDataModel();
         configDataModel(dataModel);
         initView();
+        testServerSocket();
 
     }
 
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 .engine(new OkhttpEngineForStringByStringBody());
         dataModel.producerFactory(new IDataModelProducerFactory() {
             @Override
-            public IDataModelProducer onCreateProducer(String tag) {
+            public IDataModelProducer dataModelProducer(String tagAndClientKey) {
                 return dataModelProducer;
             }
         });
@@ -135,5 +135,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void test() {
         dataModel.request("xxx");
+    }
+
+    private void testServerSocket(){
+        IPCServer.startServer(this);
     }
 }

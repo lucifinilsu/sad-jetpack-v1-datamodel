@@ -38,6 +38,7 @@ dependencies {
     api project(":datamodel-api")
     implementation "androidx.core:core-ktx:1.8.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //api "com.gitee.gzstv_1:GTV_DataCollectionAndStatistics_SDK_Android:0.0.1"
 }
 /*
 repositories {
