@@ -217,8 +217,10 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
             }
         }
         else {
-            mWebSocket.close(1001,"连接失败");
-            mWebSocket.cancel();
+            if (mWebSocket!=null){
+                mWebSocket.close(1001,"连接失败");
+                mWebSocket.cancel();
+            }
             mWebSocketMap.remove(dataModelRequest.tag());
             mOkHttpClientMap.remove(dataModelRequest.tag());
             mWebSocket=null;
