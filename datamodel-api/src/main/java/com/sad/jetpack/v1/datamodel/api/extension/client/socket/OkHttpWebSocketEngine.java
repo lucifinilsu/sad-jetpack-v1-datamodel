@@ -165,7 +165,7 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
                         .build();
                 mOkHttpClientMap.put(k,mOkHttpClient);
                 if (mWebSocket!=null && overSocket){
-                    mWebSocket.close(1001,"客户端覆盖关闭");
+                    mWebSocket.close(1000,"客户端覆盖关闭");
                     mWebSocket.cancel();
                     mWebSocketMap.remove(k);
                     mWebSocket=null;
@@ -206,6 +206,7 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, Response response) {
         super.onFailure(webSocket, t, response);
+        t.printStackTrace();
         // 出错了
         if(currRetry!=retryTimes){
             try {
@@ -216,7 +217,7 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
             }
         }
         else {
-            mWebSocket.close(998,"连接失败");
+            mWebSocket.close(1001,"连接失败");
             mWebSocket.cancel();
             mWebSocketMap.remove(dataModelRequest.tag());
             mOkHttpClientMap.remove(dataModelRequest.tag());
@@ -235,7 +236,7 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
         try {
             mOkHttpClient.dispatcher().executorService().shutdown();
             mWebSocket.cancel();
-            mWebSocket.close(1001,"客户端主动关闭");
+            mWebSocket.close(1000,"客户端主动关闭");
             mOkHttpClient=null;
             mWebSocket=null;
             mOkHttpClientMap.remove(dataModelRequest.tag());
