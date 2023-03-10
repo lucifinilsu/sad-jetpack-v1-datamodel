@@ -71,6 +71,8 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
 
         void onWebSocketConnectionAlive(String tag, ISocketMessenger messenger, int socketAliveMode);
 
+        void onWebSocketMessageReceived(String tag, ISocketMessenger messenger,String text, int socketAliveMode);
+
         void onWebSocketConnectionShutDown(String tag,int code, String reason);
 
         void onWebSocketConnectionClosed(String tag,int code, String reason);
@@ -113,10 +115,8 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
         if (!response.isSuccessful()){
             chainOutput.proceed(responseCreator.create());
         }
-        else {
-            if (connectionListener!=null){
-                connectionListener.onWebSocketConnectionAlive(dataModelRequest.tag(),this,SOCKET_ALIVE_MODE_INIT);
-            }
+        if (connectionListener!=null){
+            connectionListener.onWebSocketConnectionAlive(dataModelRequest.tag(),this,SOCKET_ALIVE_MODE_INIT);
         }
     }
 
@@ -128,6 +128,9 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
          * 在这里对收到的信息进行处理
          */
         responseCreator.body(text);
+        if (connectionListener!=null){
+            connectionListener.onWebSocketMessageReceived(dataModelRequest.tag(),this,text,SOCKET_ALIVE_MODE_LIVE);
+        }
         this.chainOutput.proceed(responseCreator.create());
     }
 
@@ -143,11 +146,15 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
     @Override
     public void onClosed(WebSocket webSocket, int code, String reason) {
         super.onClosed(webSocket, code, reason);
-        // WebSocket 连接关闭
-        mWebSocket.close(code,reason);
-        mWebSocket.cancel();
-        mWebSocketMap.remove(dataModelRequest.tag());
-        mWebSocket=null;
+        try {
+            // WebSocket 连接关闭
+            mWebSocket.close(code,reason);
+            mWebSocket.cancel();
+            mWebSocketMap.remove(dataModelRequest.tag());
+            mWebSocket=null;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         if (connectionListener!=null){
             connectionListener.onWebSocketConnectionClosed(dataModelRequest.tag(),code,reason);
         }
