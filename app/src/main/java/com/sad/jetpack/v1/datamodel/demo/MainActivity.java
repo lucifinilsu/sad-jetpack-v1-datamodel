@@ -137,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
         dataModel.request("xxx");
     }
 
+    private void testWebSocket(){
+
+    }
+
     private void testServerSocket(){
         IPCServer.startServer(this);
     }

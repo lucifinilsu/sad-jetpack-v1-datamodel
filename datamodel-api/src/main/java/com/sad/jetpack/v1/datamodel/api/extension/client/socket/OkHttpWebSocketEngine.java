@@ -165,9 +165,9 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
                         .build();
                 mOkHttpClientMap.put(k,mOkHttpClient);
                 if (mWebSocket!=null && overSocket){
-                    mWebSocket.close(1001,"客户端覆盖关闭");
-                    mWebSocket.cancel();
                     mWebSocketMap.remove(k);
+                    mWebSocket.cancel();
+                    mWebSocket.close(1001,"客户端覆盖关闭");
                     mWebSocket=null;
                 }
             }
@@ -217,12 +217,12 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
             }
         }
         else {
+            mWebSocketMap.remove(dataModelRequest.tag());
+            mOkHttpClientMap.remove(dataModelRequest.tag());
             if (mWebSocket!=null){
                 mWebSocket.close(1001,"连接失败");
                 mWebSocket.cancel();
             }
-            mWebSocketMap.remove(dataModelRequest.tag());
-            mOkHttpClientMap.remove(dataModelRequest.tag());
             mWebSocket=null;
             mOkHttpClient=null;
             IDataModelObtainedExceptionListener exceptionListener=chainOutput.exceptionListener();
@@ -236,11 +236,16 @@ public class OkHttpWebSocketEngine extends WebSocketListener implements IDataMod
     @Override
     public void close(){
         try {
-            mOkHttpClient.dispatcher().executorService().shutdown();
-            mWebSocket.cancel();
-            mWebSocket.close(1001,"客户端主动关闭");
-            mOkHttpClient=null;
-            mWebSocket=null;
+            if(mOkHttpClient!=null){
+                mOkHttpClient.dispatcher().executorService().shutdown();
+                mOkHttpClient=null;
+            }
+            if (mWebSocket!=null){
+                mWebSocket.cancel();
+                mWebSocket.close(1001,"客户端主动关闭");
+                mWebSocket=null;
+            }
+
             mOkHttpClientMap.remove(dataModelRequest.tag());
             mWebSocketMap.remove(dataModelRequest.tag());
         }catch (Exception e){
